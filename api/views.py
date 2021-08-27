@@ -5,10 +5,13 @@ from . models import Movie, Rating
 from . serializers import MovieSerializer, RatingSerializer
 from rest_framework.decorators import action
 from django.contrib.auth.models import User
+from rest_framework.authentication import TokenAuthentication
+
 
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
+    authentication_classes = (TokenAuthentication, )
 
     #Rate the movie
     @action(detail = True, methods = ['POST'])
@@ -17,8 +20,8 @@ class MovieViewSet(viewsets.ModelViewSet):
             
             movie = Movie.objects.get(id = pk)
             stars = request.data['stars']
-            user = User.objects.get(id = 1)
-
+            #user = User.objects.get(id = 1)
+            user = request.user
             try:
                 rating = Rating.objects.get(user = user.id, movie = movie.id)
                 rating.stars = stars
@@ -40,3 +43,4 @@ class MovieViewSet(viewsets.ModelViewSet):
 class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
+    authentication_classes = (TokenAuthentication, )
