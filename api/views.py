@@ -1,5 +1,5 @@
 from api.models import Movie
-from rest_framework import viewsets, status
+from rest_framework import serializers, viewsets, status
 from rest_framework.response import Response
 from . models import Movie, Rating
 from . serializers import MovieSerializer, RatingSerializer
@@ -23,10 +23,15 @@ class MovieViewSet(viewsets.ModelViewSet):
                 rating = Rating.objects.get(user = user.id, movie = movie.id)
                 rating.stars = stars
                 rating.save()
-                response = {'message': 'its working'}
+                serializer = RatingSerializer(rating, many = False)
+                response = {'message': 'Rating Updated', 'result': serializer.data}
                 return Response(response, status = status.HTTP_200_OK)
             except:
                 rating = Rating.objects.create(user = user.id, movie = movie.id, stars = stars)
+                serializer = RatingSerializer(rating, many = False)
+                response = {'message': 'Rating Created', 'result': serializer.data}
+                return Response(response, status = status.HTTP_200_OK)
+
         else:
             response = {'message': 'You need to provide stars'}
             return Response(response, status = status.HTTP_400_BAD_REQUEST)
