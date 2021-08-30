@@ -1,3 +1,4 @@
+from rest_framework import response
 from api.models import Movie
 from rest_framework import serializers, viewsets, status
 from rest_framework.response import Response
@@ -45,6 +46,10 @@ class MovieViewSet(viewsets.ModelViewSet):
         else:
             response = {'message': 'You need to provide stars'}
             return Response(response, status = status.HTTP_400_BAD_REQUEST)
+    
+    def update(self, request, *args, **kwargs):
+        response = {'message': 'You cant update rating like that'}
+        return Response(response,  status = status.HTTP_400_BAD_REQUEST)
 
 
 class RatingViewSet(viewsets.ModelViewSet):
