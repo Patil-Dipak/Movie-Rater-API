@@ -51,5 +51,4 @@ class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
     authentication_classes = (TokenAuthentication, )
-    authentication_classes = (TokenAuthentication, )
     permission_classes = (IsAuthenticated,)     # permission class
