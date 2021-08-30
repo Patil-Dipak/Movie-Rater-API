@@ -46,11 +46,15 @@ class MovieViewSet(viewsets.ModelViewSet):
         else:
             response = {'message': 'You need to provide stars'}
             return Response(response, status = status.HTTP_400_BAD_REQUEST)
-    
+
+
     def update(self, request, *args, **kwargs):
         response = {'message': 'You cant update rating like that'}
         return Response(response,  status = status.HTTP_400_BAD_REQUEST)
 
+    def create(self, request, *args, **kwargs):
+        response = {'message': 'You cant create rating like that'}
+        return Response(response,  status = status.HTTP_400_BAD_REQUEST)
 
 class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
